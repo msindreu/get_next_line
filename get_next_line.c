@@ -6,7 +6,7 @@
 /*   By: alfredun <msindreu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:14:58 by msindreu          #+#    #+#             */
-/*   Updated: 2022/08/02 18:56:40 by msindreu         ###   ########.fr       */
+/*   Updated: 2022/08/04 18:07:51 by msindreu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -29,7 +29,7 @@ char	*ft_get_line(char *str)
 	return (line);
 }
 
-char	*ft_clean(char *new_guardado)
+char	*ft_clean(char *str)
 {
 	char *rest;
 	int 	i;
@@ -37,51 +37,50 @@ char	*ft_clean(char *new_guardado)
 
 	i = 0;
 	j = 0;
-	while (new_guardado[i] != '\n' && new_guardado[i] != '\0')
+	while (str[i] != '\n' && str[i] != '\0')
 	{
 		i++;
 	}
-	if(new_guardado[i] == '\0')
+	if(str[i] == '\0')
 	{
-		free(new_guardado);
+		free(str);
 		return(NULL);
 	}
-	rest = ft_substr(new_guardado, i + 1, ft_strlen(new_guardado));
+	rest = ft_substr(str, i + 1, ft_strlen(str));
 	if (!rest)
 	{
 		return (NULL);
 	}
-	free(new_guardado);
+	free(str);
 	return (rest);
 }
 
-char *fill_static_save_var(int fd, char *new_guardado)
+char *ft_reading(int fd, char *str)
 {
 	char	*buffer;
-	int		readed_bytes;
+	int		bytes;
 
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	buffer[0] = '\0';
-	readed_bytes = 1;
-
-	while (!ft_strchr(buffer, '\n') && readed_bytes > 0)
+	bytes = 1;
+	while (!ft_strchr(buffer, '\n') && bytes > 0)
 	{
-		readed_bytes = read(fd, buffer, BUFFER_SIZE);
-		if (readed_bytes > 0)
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes > 0)
 		{
-			buffer[readed_bytes] = '\0';
-			new_guardado = ft_strjoin(new_guardado, buffer);
+			buffer[bytes] = '\0';
+			str = ft_strjoin(str, buffer);
 		}
 	}
 	free(buffer);
-	if (readed_bytes == -1)
+	if (bytes == -1)
 	{
-		free(new_guardado);
+		free(str);
 		return (NULL);
 	}
-	return(new_guardado);
+	return(str);
 }
 
 char	*get_next_line(int fd)
@@ -92,7 +91,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return(NULL);
 	if(!new_guardado || (new_guardado && !ft_strchr(new_guardado, '\n')))
-		new_guardado = fill_static_save_var(fd, new_guardado);
+		new_guardado = ft_reading(fd, new_guardado);
 	if(new_guardado == NULL)
 		return(NULL);
 	line = ft_get_line(new_guardado);
