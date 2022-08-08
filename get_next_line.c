@@ -14,14 +14,14 @@
 char	*ft_get_line(char *str)
 {
 	char	*line;
-	int 	i;
+	int		i;
 
 	i = 0;
-	if(!str[0])
-		return(NULL);
+	if (!str[0])
+		return (NULL);
 	while (str[i] != '\n' && str[i] != '\0')
 		i++;
-	if(str[i] == '\n')
+	if (str[i] == '\n')
 		i++;
 	line = ft_substr(str, 0, i);
 	if (!line)
@@ -31,9 +31,9 @@ char	*ft_get_line(char *str)
 
 char	*ft_clean(char *str)
 {
-	char *rest;
-	int 	i;
-	int 	j;
+	char	*rest;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -41,10 +41,10 @@ char	*ft_clean(char *str)
 	{
 		i++;
 	}
-	if(str[i] == '\0')
+	if (str[i] == '\0')
 	{
 		free(str);
-		return(NULL);
+		return (NULL);
 	}
 	rest = ft_substr(str, i + 1, ft_strlen(str));
 	if (!rest)
@@ -55,7 +55,7 @@ char	*ft_clean(char *str)
 	return (rest);
 }
 
-char *ft_reading(int fd, char *str)
+char	*ft_reading(int fd, char *str)
 {
 	char	*buffer;
 	int		bytes;
@@ -80,25 +80,26 @@ char *ft_reading(int fd, char *str)
 		free(str);
 		return (NULL);
 	}
-	return(str);
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {	
 	static char	*new_guardado = NULL;
-	char	*line;
-	
+	char		*line;
+
+	line = "";
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return(NULL);
-	if(!new_guardado || (new_guardado && !ft_strchr(new_guardado, '\n')))
+		return (NULL);
+	if (!new_guardado || (new_guardado && !ft_strchr(new_guardado, '\n')))
 		new_guardado = ft_reading(fd, new_guardado);
-	if(new_guardado == NULL)
-		return(NULL);
+	if (new_guardado == NULL)
+		return (NULL);
 	line = ft_get_line(new_guardado);
-	if(!line)
+	if (!line)
 	{
-		free(new_guardado);
-		return(NULL);
+		free (new_guardado);
+		return (NULL);
 	}
 	new_guardado = ft_clean(new_guardado);
 	return (line);
