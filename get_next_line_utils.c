@@ -6,26 +6,28 @@
 /*   By: msindreu <msindreu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/04 16:52:15 by msindreu          #+#    #+#             */
-/*   Updated: 2022/08/04 18:07:43 by msindreu         ###   ########.fr       */
+/*   Updated: 2022/08/11 17:37:04 by msindreu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 char	*ft_creating_new_guardado(char *s1)
 {
 	s1 = malloc(sizeof(char) * 1);
-		if(!s1)
-			return(NULL);
-		s1[0] = '\0';
+	if (!s1)
+		return (NULL);
+	s1[0] = '\0';
 	return (s1);
 }
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char		*nstr;
 	size_t		i;
 
 	i = 0;
-	if(!s1)
+	if (!s1)
 		s1 = ft_creating_new_guardado(s1);
 	nstr = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!nstr)
@@ -72,6 +74,7 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char			*subs;
