@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alfredun <msindreu@student.42barcel>       +#+  +:+       +#+        */
+/*   By: msindreu <msindreu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:14:58 by msindreu          #+#    #+#             */
-/*   Updated: 2022/08/11 18:24:53 by msindreu         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:53:54 by msindreu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line_bonus.h"
@@ -89,7 +89,7 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	line = "";
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 1023)
 		return (NULL);
 	if (!new_guardado[fd]
 		|| (new_guardado[fd] && !ft_strchr(new_guardado[fd], '\n')))
@@ -100,6 +100,7 @@ char	*get_next_line(int fd)
 	if (!line)
 	{
 		free (new_guardado[fd]);
+		new_guardado = NULL;
 		return (NULL);
 	}
 	new_guardado[fd] = ft_clean(new_guardado[fd]);
